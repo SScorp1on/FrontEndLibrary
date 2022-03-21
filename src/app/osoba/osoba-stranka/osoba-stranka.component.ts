@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {Osoba} from '../../models/osoba.model';
+import {Osoba, OsobaZoznam} from '../../models/osoba.model';
 import {OsobaService} from '../osoba.service';
 
 @Component({
@@ -9,7 +9,7 @@ import {OsobaService} from '../osoba.service';
   styleUrls: ['./osoba-stranka.component.css']
 })
 export class OsobaStrankaComponent implements OnInit {
-  osoby: Osoba[] = [];
+  osoby: OsobaZoznam[] = [];
 
   osobaNaUpravu?: Osoba;
 
@@ -22,10 +22,7 @@ export class OsobaStrankaComponent implements OnInit {
   refreshOsob(): void {
     this.osobaService.getOsoby().subscribe(data => {
       console.log('prislo:', data);
-      this.osoby = [];
-      for (const d of data) {
-        this.osoby.push({ id: d.id, meno: d.name, priezvisko: d.name});
-      }
+      this.osoby = data;
     });
   }
 
@@ -41,20 +38,25 @@ export class OsobaStrankaComponent implements OnInit {
   }
 
   uprav(osoba: Osoba): void {
-    const index = this.osoby.findIndex(osobaArray => osobaArray.id === osoba.id);
-    if (index !== -1) {
-      this.osoby[index] = osoba;
+    if(osoba.id !== undefined) {
+      this.osobaService.updateOsoba(osoba.id, osoba).subscribe(data => {
+        console.log('prislo:', data);
+        this.refreshOsob();
+      });
     }
   }
 
-  upravZoZoznamu(osoba: Osoba): void {
-    this.osobaNaUpravu = osoba;
+  upravZoZoznamu(osobaId: number): void {
+    this.osobaService.getOsoby(osobaId).subscribe(data => {
+      console.log('prislo:', data);
+      this.osobaNaUpravu = data;
+    });
+
   }
 
-  zmazZoZoznamu(osoba: Osoba): void {
-    const index = this.osoby.findIndex(osobaArray => osobaArray.id === osoba.id);
-    if (index !== -1) {
-      this.osoby.splice(index, 1);
-    }
+  zmazZoZoznamu(osobaId: number): void {
+    this.osobaService.deleteOsoba(osobaId).subscribe(data => {
+      this.refreshOsob();
+    });
   }
 }

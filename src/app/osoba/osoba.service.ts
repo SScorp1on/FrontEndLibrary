@@ -8,7 +8,7 @@ import {Osoba, OsobaZoznam} from '../models/osoba.model';
 })
 export class OsobaService {
 
-  private apiUrl = 'http://localhost:8080/api/customer';
+  private apiUrl = 'http://labs.fpv.umb.sk:8080/api/customers';
 
   constructor(private http: HttpClient) { }
 
@@ -16,12 +16,17 @@ export class OsobaService {
     return this.http.get<OsobaZoznam[]>(`${this.apiUrl}`);
   }
 
-  getOsoba(osobaId: string): Observable<Osoba> {
+  getOsoba(osobaId: number): Observable<Osoba> {
     return this.http.get<Osoba>(`${this.apiUrl}/${osobaId}`);
   }
 
   createOsoba(osoba: Osoba): Observable<Osoba> {
     return this.http.post<Osoba>(`${this.apiUrl}`, {firstname: osoba.meno, lastname: osoba.priezvisko});
   }
-
+  updateOsoba(osobaId: number,osoba: Osoba): Observable<Osoba> {
+    return this.http.put<Osoba>(`${this.apiUrl}/${osobaId}`, {firstname: osoba.meno, lastname: osoba.priezvisko});
+  }
+  deleteOsoba(osobaId: number): Observable<void> {
+  return this.http.get<void>(`${this.apiUrl}/${osobaId}`);
+}
 }
