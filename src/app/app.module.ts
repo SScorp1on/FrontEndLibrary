@@ -9,6 +9,9 @@ import { MenuComponent } from './menu/menu.component';
 import {RouterModule} from '@angular/router';
 import { OsobaStrankaComponent } from './osoba/osoba-stranka/osoba-stranka.component';
 import {HttpClientModule} from '@angular/common/http';
+import { KnihyZoznamComponent } from './knihy/knihy-zoznam/knihy-zoznam.component';
+import { KnihyFormularComponent } from './knihy/knihy-formular/knihy-formular.component';
+import { KnihyStrankaComponent } from './knihy/knihy-stranka/knihy-stranka.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import {HttpClientModule} from '@angular/common/http';
     OsobaZoznamComponent,
     OsobaFormularComponent,
     MenuComponent,
-    OsobaStrankaComponent
+    OsobaStrankaComponent,
+    KnihyZoznamComponent,
+    KnihyFormularComponent,
+    KnihyStrankaComponent
   ],
   imports: [
     BrowserModule,
